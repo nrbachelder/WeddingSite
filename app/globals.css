@@ -1,0 +1,478 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #fdf9f6;
+  /* main text is black so it pops against the paper and the palette */
+  --ink: #111;
+  --muted: #111;
+  --line: #3a2a32;
+  /* wedding palette */
+  --rose: #ffb7c5;
+  --magenta: #c82372;
+  --plum: #830c4f;
+  --olive: #93a85c;
+  --lime: #c1d183;
+  --tangerine: #ff6b1a;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rose: var(--rose);
+  --color-magenta: var(--magenta);
+  --color-plum: var(--plum);
+  --color-olive: var(--olive);
+  --color-lime: var(--lime);
+  --color-tangerine: var(--tangerine);
+  --font-sans: var(--font-josefin);
+  --font-serif: var(--font-cormorant);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-josefin), sans-serif;
+}
+
+/* Tiles zoomed or pushed outward at the grid's edges must not cause sideways scrolling.
+   clip (unlike hidden) doesn't create a scroll container, so the pinned grid still sticks. */
+main {
+  overflow-x: clip;
+}
+
+/* ---------- Honeycomb grid (Our Story + Info) ---------- */
+
+/*
+  Desktop: full-width honeycomb. JS sets --w (hex width), --band-h, and per-slot --x/--y.
+  At most one tile is .is-active (scroll position or hover). JS then sets per-slot --tx/--ty/--s:
+  the active tile grows to --zoom and every other tile shrinks and moves away from it, so the
+  zoomed tile never covers its neighbors (see fisheye() in HoneycombGrid).
+*/
+.band {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --h: calc(var(--w) * 0.866);
+  --zoom: 1.35;
+  position: relative;
+  width: 100%;
+  height: var(--band-h);
+}
+
+.slot {
+  position: absolute;
+  width: var(--w);
+  height: var(--h);
+  left: var(--x);
+  top: var(--y);
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  /* default --s slightly under 1 leaves the thin paper-colored seams seen in the inspo */
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--s, 0.97));
+  z-index: 1;
+  /* z-index waits until the shrink finishes so a tile never pops behind its neighbors */
+  transition:
+    transform 550ms var(--ease),
+    opacity 550ms var(--ease),
+    z-index 0s linear 550ms;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.hex {
+  background: var(--tile);
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  outline: none;
+}
+
+.band[data-active] .slot {
+  opacity: 0.85;
+}
+.band[data-active] .slot.is-active {
+  opacity: 1;
+  z-index: 20;
+  transition-delay: 0s;
+}
+/* Info tiles: a summary face, swapped for a details face when zoomed */
+.info-tile {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+  font-family: var(--font-cormorant), serif;
+  text-align: center;
+  color: #111;
+}
+.info-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  padding: 0 19%;
+  line-height: 1.25;
+  transition: opacity 350ms var(--ease);
+}
+.info-summary {
+  font-size: 7cqw;
+}
+.info-details {
+  font-size: 5.4cqw;
+  opacity: 0;
+  pointer-events: none;
+}
+.slot.is-active .info-summary {
+  opacity: 0;
+}
+.slot.is-active .info-details {
+  opacity: 1;
+  transition-delay: 150ms;
+}
+.info-word {
+  font-size: 1.9em;
+  font-style: italic;
+  line-height: 1;
+}
+.info-hint {
+  margin-top: 0.4em;
+  font-family: var(--font-josefin), sans-serif;
+  font-size: 0.55em;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.info-title {
+  margin-bottom: 0.3em;
+  font-family: var(--font-josefin), sans-serif;
+  font-size: 0.55em;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.info-lead {
+  font-family: var(--font-josefin), sans-serif;
+  font-size: 1.25em;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+}
+
+/*
+  Our Story photos (intro and timeline): the tile shows its --ring color (the same color as its
+  caption box) and the photo is clipped to a hexagon inset by --ring-w, leaving a thin outline.
+  A fixed px width keeps the line equally fine on small intro tiles and full-size photos.
+*/
+.band-timeline .hex {
+  --ring-w: 1.25px;
+  background: var(--ring);
+}
+.band-timeline .hex img {
+  clip-path: polygon(
+    calc(25% + var(--ring-w) * 0.577) var(--ring-w),
+    calc(75% - var(--ring-w) * 0.577) var(--ring-w),
+    calc(100% - var(--ring-w) * 1.155) 50%,
+    calc(75% - var(--ring-w) * 0.577) calc(100% - var(--ring-w)),
+    calc(25% + var(--ring-w) * 0.577) calc(100% - var(--ring-w)),
+    calc(var(--ring-w) * 1.155) 50%
+  );
+}
+
+/* Caption boxes beside each Our Story photo (only the zoomed photo's is open) */
+.mcap {
+  display: none;
+}
+
+/*
+  Desktop timeline: photos wind down the page in rows (see windingLayout), gliding there from the
+  intro honeycomb. A caption box sits in the gap under its photo's row, centered on the photo: a
+  thin outline in its color with centered text, joined to the photo by a line and dot. The dot
+  sits --dot-gap past the furthest the photo reaches when zoomed, so it is always clear of the
+  photo, and the line runs from the dot to the box. (--dot-gap + --line = CAPTION_LEAD.)
+*/
+@media (min-width: 768px) {
+  .band-timeline .slot {
+    transition:
+      transform 550ms var(--ease),
+      opacity 550ms var(--ease),
+      z-index 0s linear 550ms,
+      left 750ms var(--ease),
+      top 750ms var(--ease),
+      width 750ms var(--ease),
+      height 750ms var(--ease);
+  }
+  .band-timeline .mcap {
+    --dot-gap: 10px;
+    --line: 28px;
+    --lead: calc(var(--h) * (var(--zoom) + 1) / 2 + var(--dot-gap) + var(--line));
+    --cap-w: calc(var(--w) * 1.5);
+    position: absolute;
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    left: calc(var(--x) + var(--w) / 2 - var(--cap-w) / 2);
+    top: calc(var(--y) + var(--lead));
+    width: var(--cap-w);
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--tint);
+    border-radius: 4px;
+    background: var(--paper);
+    color: #111;
+    text-align: center;
+    cursor: pointer;
+    transform: translate(var(--tx, 0px), 0);
+    /* Closed by default; opens with a clip that grows away from the photo (the negative inset on
+       the photo side keeps the line + dot unclipped) */
+    --reach: calc(var(--line) + 8px);
+    opacity: 0;
+    pointer-events: none;
+    clip-path: inset(calc(-1 * var(--reach)) -4px 100% -4px);
+    transition:
+      opacity 200ms var(--ease),
+      clip-path 200ms var(--ease),
+      transform 550ms var(--ease);
+  }
+  .band-timeline .mcap.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    clip-path: inset(calc(-1 * var(--reach)) -4px -4px -4px);
+    transition:
+      opacity 150ms var(--ease),
+      clip-path 420ms var(--ease) 260ms,
+      transform 550ms var(--ease);
+  }
+  .band-intro .mcap {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* Line + dot from the photo's edge to the box: the dot pops, then the line draws toward the box */
+  .band-timeline .mcap::before,
+  .band-timeline .mcap::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    background: var(--tint);
+  }
+  .band-timeline .mcap::before {
+    bottom: 100%;
+    width: 1.5px;
+    height: var(--line);
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: center top;
+    transition: transform 150ms var(--ease);
+  }
+  .band-timeline .mcap::after {
+    bottom: calc(100% + var(--line) - 3.5px);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translateX(-50%) scale(0);
+    transition: transform 150ms var(--ease);
+  }
+  .band-timeline .mcap.is-active::after {
+    transform: translateX(-50%) scale(1);
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms;
+  }
+  .band-timeline .mcap.is-active::before {
+    transform: translateX(-50%) scaleY(1);
+    transition: transform 260ms var(--ease) 140ms;
+  }
+}
+
+/*
+  Mobile: pointy-top hexagons zigzagging down the page; the tile nearest the
+  middle of the screen is active. Timeline tiles get a label beside them.
+*/
+@media (max-width: 767px) {
+  /* Zigzag: photos alternate left/right, each with its caption box beside it */
+  .band {
+    --w: 44vw !important;
+    --h: calc(var(--w) / 0.866);
+    --zoom: 1.2;
+    height: calc((var(--n) - 1) * 0.75 * var(--h) + var(--h));
+  }
+  /* Info cluster turned sideways: 1 on top, 2 side by side, 1 at the bottom */
+  .band-info {
+    --w: 45vw !important;
+    height: calc(0.75 * var(--h) * 2 + var(--h));
+  }
+  .band-info .slot {
+    left: calc(50% - var(--w) + var(--mx) * var(--w));
+    top: calc(var(--my) * 0.75 * var(--h));
+  }
+  .slot.filler {
+    display: none;
+  }
+  .slot {
+    left: calc(var(--odd) * (100% - var(--w)));
+    top: calc(var(--i) * 0.75 * var(--h));
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+  .band[data-active] .slot {
+    opacity: 0.75;
+  }
+  /* Tiles glide between the intro honeycomb and the zigzag */
+  .slot {
+    transition:
+      transform 550ms var(--ease),
+      opacity 550ms var(--ease),
+      z-index 0s linear 550ms,
+      left 750ms var(--ease),
+      top 750ms var(--ease),
+      width 750ms var(--ease),
+      height 750ms var(--ease);
+  }
+  /*
+    Caption label beside its photo, vertically centered on it: a thin outline in its color with
+    centered text, joined by a line to a dot. Nothing moves or resizes: the dot sits --dot-gap past
+    the furthest the photo reaches when zoomed (w * zoom), so it is always visible, and the line runs
+    from the dot to the label.
+  */
+  .mcap {
+    --dot-gap: 10px;
+    --line: 22px;
+    --lead: calc(var(--w) * (var(--zoom) - 1) + var(--dot-gap) + var(--line));
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.15rem;
+    top: calc(var(--i) * 0.75 * var(--h) + var(--h) / 2);
+    left: calc((1 - var(--odd)) * (var(--w) + var(--lead)));
+    width: calc(100% - var(--w) - var(--lead));
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--tint);
+    border-radius: 4px;
+    background: var(--paper);
+    color: #111;
+    text-align: center;
+    cursor: pointer;
+    transform: translate(var(--tx, 0px), calc(var(--ty, 0px) - 50%));
+    /*
+      Closed by default: only the zoomed photo's caption opens. The box is revealed with a clip that
+      grows away from the photo (the negative inset on the photo side keeps the line + dot unclipped).
+    */
+    --reach: calc(var(--line) + 8px);
+    opacity: 0;
+    pointer-events: none;
+    clip-path: inset(-4px 100% -4px calc(-1 * var(--reach)));
+    transition:
+      opacity 200ms var(--ease),
+      clip-path 200ms var(--ease),
+      transform 550ms var(--ease);
+  }
+  .mcap.lane-b {
+    clip-path: inset(-4px calc(-1 * var(--reach)) -4px 100%);
+  }
+  .mcap.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    clip-path: inset(-4px -4px -4px calc(-1 * var(--reach)));
+    transition:
+      opacity 150ms var(--ease),
+      clip-path 420ms var(--ease) 260ms,
+      transform 550ms var(--ease);
+  }
+  .mcap.lane-b.is-active {
+    clip-path: inset(-4px calc(-1 * var(--reach)) -4px -4px);
+  }
+  /* Line + dot from the photo's edge to the label: the dot pops, then the line draws toward the box */
+  .mcap::before,
+  .mcap::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    background: var(--tint);
+  }
+  .mcap::before {
+    right: 100%;
+    width: var(--line);
+    height: 1.5px;
+    transform: translateY(-50%) scaleX(0);
+    transform-origin: left center;
+    transition: transform 150ms var(--ease);
+  }
+  .mcap::after {
+    right: calc(100% + var(--line) - 3.5px);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translateY(-50%) scale(0);
+    transition: transform 150ms var(--ease);
+  }
+  .mcap.lane-b::before {
+    right: auto;
+    left: 100%;
+    transform-origin: right center;
+  }
+  .mcap.lane-b::after {
+    right: auto;
+    left: calc(100% + var(--line) - 3.5px);
+  }
+  .mcap.is-active::after {
+    transform: translateY(-50%) scale(1);
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms;
+  }
+  .mcap.is-active::before {
+    transform: translateY(-50%) scaleX(1);
+    transition: transform 260ms var(--ease) 140ms;
+  }
+  /* Intro: every photo packed into one compact honeycomb (rows of 5 and 4) */
+  .band {
+    --iw: calc((100vw - 32px) / 5);
+    --ih: calc(var(--iw) / 0.866);
+  }
+  .band.band-intro {
+    height: calc((var(--irows) - 1) * 0.75 * var(--ih) + var(--ih));
+  }
+  .band-intro .slot {
+    left: calc(var(--ix) * var(--iw));
+    top: calc(var(--iy) * 0.75 * var(--ih));
+    width: var(--iw);
+    height: var(--ih);
+  }
+  /* Pointy-top photos: same outline, clipped to the pointy-top hexagon */
+  .band-timeline .hex img {
+    clip-path: polygon(
+      50% var(--ring-w),
+      calc(100% - var(--ring-w)) calc(25% + var(--ring-w) / 2),
+      calc(100% - var(--ring-w)) calc(75% - var(--ring-w) / 2),
+      50% calc(100% - var(--ring-w)),
+      var(--ring-w) calc(75% - var(--ring-w) / 2),
+      var(--ring-w) calc(25% + var(--ring-w) / 2)
+    );
+  }
+  .mcap {
+    display: flex;
+  }
+  .band-intro .mcap {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms var(--ease);
+  }
+  .info-face {
+    padding: 0 13%;
+  }
+  .info-summary {
+    font-size: 8cqw;
+  }
+  .info-details {
+    font-size: 6.4cqw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot,
+  .band-timeline .slot,
+  .info-face,
+  .mcap,
+  .mcap::before,
+  .mcap::after,
+  .band-timeline .mcap,
+  .band-timeline .mcap::before,
+  .band-timeline .mcap::after {
+    transition: none;
+  }
+}

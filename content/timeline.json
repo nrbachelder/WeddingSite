@@ -1,0 +1,217 @@
+[
+  {
+    "id": "best-friends",
+    "date": "2015",
+    "title": "Best friends",
+    "caption": "Best friends",
+    "image": "/timeline/01-best-friends.webp",
+    "focal": "50% 55%",
+    "alt": "Best friends"
+  },
+  {
+    "id": "junior-prom",
+    "date": "2017",
+    "title": "Junior prom",
+    "caption": "Junior prom! Apparently no one was shocked when we made things Instagram official back in 2017",
+    "image": "/timeline/02-junior-prom.webp",
+    "focal": "50% 30%",
+    "alt": "Junior prom! Apparently no one was shocked when we made things Instagram official back in 2017"
+  },
+  {
+    "id": "1-year-together",
+    "date": "2018",
+    "title": "One year together",
+    "caption": "1 year together",
+    "image": "/timeline/03-1-year-together.webp",
+    "alt": "1 year together"
+  },
+  {
+    "id": "senior-prom",
+    "date": "2018",
+    "title": "Senior prom",
+    "caption": "Senior prom",
+    "image": "/timeline/04-senior-prom.webp",
+    "alt": "Senior prom"
+  },
+  {
+    "id": "high-school-graduation-from-cedar-ridge",
+    "date": "2018",
+    "title": "High school graduation",
+    "caption": "High school graduation from Cedar Ridge",
+    "image": "/timeline/05-high-school-graduation-from-cedar-ridge.webp",
+    "focal": "50% 25%",
+    "alt": "High school graduation from Cedar Ridge"
+  },
+  {
+    "id": "emma-s-freshman-year-dorm-at-bard-did-me",
+    "date": "2018",
+    "title": "Emma's freshman dorm",
+    "caption": "Emma’s freshman year dorm at Bard",
+    "image": "/timeline/06-emma-s-freshman-year-dorm-at-bard-did-me.webp",
+    "alt": "Emma’s freshman year dorm at Bard"
+  },
+  {
+    "id": "on-the-quad-outside-nick-s-freshman-year",
+    "date": "2019",
+    "title": "Nick's freshman year",
+    "caption": "On the quad outside Nick’s freshman year dorm in Santa Barbara",
+    "image": "/timeline/07-on-the-quad-outside-nick-s-freshman-year.webp",
+    "focal": "50% 55%",
+    "alt": "On the quad outside Nick’s freshman year dorm in Santa Barbara"
+  },
+  {
+    "id": "spain",
+    "date": "2019",
+    "title": "Spain",
+    "caption": "Spain",
+    "image": "/timeline/08-spain.webp",
+    "alt": "Spain"
+  },
+  {
+    "id": "more-spain",
+    "date": "2019",
+    "title": "More Spain!",
+    "caption": "More Spain!",
+    "image": "/timeline/09-more-spain.webp",
+    "alt": "More Spain!"
+  },
+  {
+    "id": "pandemic-birthday",
+    "date": "2020",
+    "title": "Pandemic birthday",
+    "caption": "Pandemic birthday",
+    "image": "/timeline/10-pandemic-birthday.webp",
+    "alt": "Pandemic birthday"
+  },
+  {
+    "id": "york-maine-mid-covid",
+    "date": "2020",
+    "title": "York, Maine",
+    "caption": "York, Maine, mid-COVID",
+    "image": "/timeline/11-york-maine-mid-covid.webp",
+    "alt": "York, Maine, mid-COVID"
+  },
+  {
+    "id": "junior-year-state-s-street-in-santa-barb",
+    "date": "2021",
+    "title": "State Street, Santa Barbara",
+    "caption": "Junior year, State Street in Santa Barbara",
+    "image": "/timeline/12-junior-year-state-s-street-in-santa-barb.webp",
+    "focal": "50% 35%",
+    "alt": "Junior year, State Street in Santa Barbara"
+  },
+  {
+    "id": "spring-break-senior-year-in-san-francisc",
+    "date": "2022",
+    "title": "Spring break in SF",
+    "caption": "Spring break senior year in San Francisco",
+    "image": "/timeline/13-spring-break-senior-year-in-san-francisc.webp",
+    "focal": "70% 65%",
+    "alt": "Spring break senior year in San Francisco"
+  },
+  {
+    "id": "moment-14",
+    "date": "June 2022",
+    "title": "Nick graduates UCSB",
+    "caption": "College graduations, across the coasts! Emma in May 2022 from Bard & Nick in June 2022 from UCSB",
+    "image": "/timeline/14-moment-14.webp",
+    "focal": "50% 35%",
+    "alt": "College graduations, across the coasts! Emma in May 2022 from Bard & Nick in June 2022 from UCSB"
+  },
+  {
+    "id": "college-graduations-across-the-coasts",
+    "date": "May 2022",
+    "title": "Emma graduates Bard",
+    "caption": "College graduations, across the coasts! Emma in May 2022 from Bard & Nick in June 2022 from UCSB",
+    "image": "/timeline/15-college-graduations-across-the-coasts.webp",
+    "focal": "50% 35%",
+    "alt": "College graduations, across the coasts! Emma in May 2022 from Bard & Nick in June 2022 from UCSB"
+  },
+  {
+    "id": "our-first-apartment-together-in-durham-i",
+    "date": "2022",
+    "title": "Our first apartment",
+    "caption": "Our first apartment together in Durham in 2022! We shared 550 sq feet together for just under a year, never again!",
+    "image": "/timeline/16-our-first-apartment-together-in-durham-i.webp",
+    "focal": "60% 60%",
+    "alt": "Our first apartment together in Durham in 2022! We shared 550 sq feet together for just under a year, never again!"
+  },
+  {
+    "id": "our-first-gig-together-in-durham",
+    "date": "Summer 2021",
+    "title": "Our first gig",
+    "caption": "Our first gig together in Durham!",
+    "image": "/timeline/17-our-first-gig-together-in-durham.webp",
+    "alt": "Our first gig together in Durham!"
+  },
+  {
+    "id": "welcome-home-binky",
+    "date": "July 2022",
+    "title": "Welcome home, Binky!",
+    "caption": "Welcome home, Binky!",
+    "image": "/timeline/18-welcome-home-binky.webp",
+    "focal": "50% 40%",
+    "alt": "Welcome home, Binky!"
+  },
+  {
+    "id": "and-so-began-poolside-summers-at-foster-",
+    "date": "",
+    "title": "Poolside summers",
+    "caption": "And so began poolside summers at Foster on the Park. Come May every year, you can find us at the pool just about every Saturday from around noon until dark! It’s our favorite.",
+    "image": "/timeline/19-and-so-began-poolside-summers-at-foster-.webp",
+    "alt": "And so began poolside summers at Foster on the Park. Come May every year, you can find us at the pool just about every Saturday from around noon until dark! It’s our favorite."
+  },
+  {
+    "id": "first-day-of-duke-graduate-school",
+    "date": "August 2022",
+    "title": "Duke grad school",
+    "caption": "First day of Duke Graduate school!",
+    "image": "/timeline/20-first-day-of-duke-graduate-school.webp",
+    "focal": "50% 25%",
+    "alt": "First day of Duke Graduate school!"
+  },
+  {
+    "id": "emma-starts-at-duke-gardens-in-2022",
+    "date": "2022",
+    "title": "Emma joins Duke Gardens",
+    "caption": "Emma starts at Duke Gardens in 2022! Pictured here: her favorite lunch spot in the Gardens.",
+    "image": "/timeline/21-emma-starts-at-duke-gardens-in-2022.webp",
+    "focal": "50% 40%",
+    "alt": "Emma starts at Duke Gardens in 2022! Pictured here: her favorite lunch spot in the Gardens."
+  },
+  {
+    "id": "we-met-alston-starting-playing-with-a-ba",
+    "date": "",
+    "title": "Meeting Alston",
+    "caption": "We met Alston & starting playing with a band (Dylan is our groupie…not sure what’s on Nick’s shirt maybe sweat)",
+    "image": "/timeline/22-we-met-alston-starting-playing-with-a-ba.webp",
+    "alt": "We met Alston & starting playing with a band (Dylan is our groupie…not sure what’s on Nick’s shirt maybe sweat)"
+  },
+  {
+    "id": "more-gigs",
+    "date": "",
+    "title": "More gigs!",
+    "caption": "More gigs!",
+    "image": "/timeline/23-more-gigs.webp",
+    "focal": "50% 40%",
+    "alt": "More gigs!"
+  },
+  {
+    "id": "italy",
+    "date": "2025",
+    "title": "Italy",
+    "caption": "Italy",
+    "image": "/timeline/24-italy.webp",
+    "focal": "50% 70%",
+    "alt": "Italy"
+  },
+  {
+    "id": "celebrating-our-9-year-anniversary-in-mi",
+    "date": "2026",
+    "title": "The proposal",
+    "caption": "Celebrating our 9 year anniversary in Miami and Nick popped the question! Now we’re getting married and we want you to come!",
+    "image": "/timeline/25-celebrating-our-9-year-anniversary-in-mi.webp",
+    "focal": "50% 50%",
+    "alt": "Celebrating our 9 year anniversary in Miami and Nick popped the question! Now we’re getting married and we want you to come!"
+  }
+]
