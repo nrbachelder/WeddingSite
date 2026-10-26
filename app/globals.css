@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f1ebe0; /* soft warm off-white */
-  /* main text is black so it pops against the paper and the palette */
-  --ink: #111;
-  --muted: #111;
+  /* page background: deep green (was the soft off-white #f1ebe0 with #111 text) */
+  --paper: #1f3b2d;
+  /* main text is cream so it pops against the green; text on the light palette tiles stays black */
+  --ink: #f3ede2;
+  --muted: #f3ede2;
   --line: #3a2a32;
   /* wedding palette */
   --rose: #ffb7c5;
@@ -207,7 +208,7 @@ main {
     border: 1.5px solid var(--tint);
     border-radius: 4px;
     background: var(--paper);
-    color: #111;
+    color: var(--ink);
     text-align: center;
     cursor: pointer;
     transform: translate(var(--tx, 0px), var(--ty, 0px));
@@ -338,7 +339,7 @@ main {
     border: 1.5px solid var(--tint);
     border-radius: 4px;
     background: var(--paper);
-    color: #111;
+    color: var(--ink);
     text-align: center;
     cursor: pointer;
     transform: translate(var(--tx, 0px), calc(var(--ty, 0px) - 50%));

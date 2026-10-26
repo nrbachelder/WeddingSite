@@ -31,13 +31,13 @@ export default function InfoModal({ title, color, sections, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="relative max-h-full w-full max-w-lg overflow-y-auto bg-paper text-[#111] shadow-2xl"
+        className="relative max-h-full w-full max-w-lg overflow-y-auto bg-paper text-ink shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-8 pt-8 pb-6 text-center" style={{ background: color }}>
-          <h2 className="font-serif text-5xl italic">{title}</h2>
+          <h2 className="font-serif text-5xl text-[#111] italic">{title}</h2>
         </div>
-        <div className="divide-y divide-black/10 px-8 py-2">
+        <div className="divide-y divide-ink/15 px-8 py-2">
           {sections.map((s) => (
             <section key={s.heading} className="py-5 text-center">
               <h3 className="mb-2 text-xs uppercase tracking-[0.3em]">{s.heading}</h3>
@@ -45,7 +45,7 @@ export default function InfoModal({ title, color, sections, onClose }: Props) {
             </section>
           ))}
         </div>
-        <button onClick={onClose} aria-label="Close" className="absolute right-4 top-3 text-3xl leading-none hover:opacity-60">
+        <button onClick={onClose} aria-label="Close" className="absolute right-4 top-3 text-3xl leading-none text-[#111] hover:opacity-60">
           ×
         </button>
       </div>
