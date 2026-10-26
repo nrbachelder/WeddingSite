@@ -220,8 +220,8 @@ export default function HoneycombGrid({
     const all = [...(band.current?.querySelectorAll<HTMLElement>(".slot, .mcap") ?? [])];
     all.forEach((el) => ["--tx", "--ty", "--s"].forEach((p) => el.style.removeProperty(p)));
     const visible = all.filter((el) => el.offsetParent !== null);
-    // Caption boxes never resize; they only follow their photo's push (vertically on phones,
-    // sideways on desktop) so they stay centered on it
+    // Caption boxes never resize; they only follow their photo's push so they stay with it
+    // (phones: vertically only, since each label keeps to its column beside the photo)
     const slots = visible.filter((el) => el.classList.contains("slot"));
     const labels = visible.filter((el) => el.classList.contains("mcap"));
     const pushed = new Map<string, { tx: string; ty: string }>();
@@ -261,7 +261,9 @@ export default function HoneycombGrid({
     });
     labels.forEach((el) => {
       const p = pushed.get(el.dataset.cap ?? "");
-      if (p) el.style.setProperty(mobile ? "--ty" : "--tx", mobile ? p.ty : p.tx);
+      if (!p) return;
+      el.style.setProperty("--ty", p.ty);
+      if (!mobile) el.style.setProperty("--tx", p.tx);
     });
   }, [active, cells, mobile, size, settled]);
 
@@ -314,6 +316,8 @@ export default function HoneycombGrid({
               "--ring": ring,
             } as CSSProperties;
             const isActive = active === i ? "is-active" : "";
+            // Captions stay open once the scroll has reached their photo, and close again above it
+            const isShown = timeline && !intro && focused !== null && i <= focused ? "is-shown" : "";
             return (
               <div key={i} className="contents">
                 <Tile
@@ -341,7 +345,7 @@ export default function HoneycombGrid({
                   <div
                     data-cap={i}
                     aria-hidden
-                    className={`mcap ${i % 2 ? "lane-b" : "lane-a"} ${isActive}`}
+                    className={`mcap ${i % 2 ? "lane-b" : "lane-a"} ${isActive} ${isShown}`}
                     style={{ ...pos, "--i": i, "--odd": i % 2, "--tint": ring } as CSSProperties}
                     onClick={() => {
                       if (swallowClick.current) {

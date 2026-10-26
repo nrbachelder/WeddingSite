@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #fdf9f6;
+  --paper: #f1ebe0; /* soft warm off-white */
   /* main text is black so it pops against the paper and the palette */
   --ink: #111;
   --muted: #111;
@@ -203,7 +203,8 @@ main {
     --dot-gap: 10px;
     --line: 28px;
     --lead: calc(var(--h) * (var(--zoom) + 1) / 2 + var(--dot-gap) + var(--line));
-    --cap-w: calc(var(--w) * 1.5);
+    /* narrower than the photo spacing, so the open captions along a row never touch */
+    --cap-w: calc(var(--w) * 1.2);
     position: absolute;
     z-index: 25;
     display: flex;
@@ -221,7 +222,7 @@ main {
     color: #111;
     text-align: center;
     cursor: pointer;
-    transform: translate(var(--tx, 0px), 0);
+    transform: translate(var(--tx, 0px), var(--ty, 0px));
     /* Closed by default; opens with a clip that grows away from the photo (the negative inset on
        the photo side keeps the line + dot unclipped) */
     --reach: calc(var(--line) + 8px);
@@ -233,7 +234,8 @@ main {
       clip-path 200ms var(--ease),
       transform 550ms var(--ease);
   }
-  .band-timeline .mcap.is-active {
+  .band-timeline .mcap.is-active,
+  .band-timeline .mcap.is-shown {
     opacity: 1;
     pointer-events: auto;
     clip-path: inset(calc(-1 * var(--reach)) -4px -4px -4px);
@@ -270,11 +272,13 @@ main {
     transform: translateX(-50%) scale(0);
     transition: transform 150ms var(--ease);
   }
-  .band-timeline .mcap.is-active::after {
+  .band-timeline .mcap.is-active::after,
+  .band-timeline .mcap.is-shown::after {
     transform: translateX(-50%) scale(1);
     transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms;
   }
-  .band-timeline .mcap.is-active::before {
+  .band-timeline .mcap.is-active::before,
+  .band-timeline .mcap.is-shown::before {
     transform: translateX(-50%) scaleY(1);
     transition: transform 260ms var(--ease) 140ms;
   }
@@ -366,7 +370,8 @@ main {
   .mcap.lane-b {
     clip-path: inset(-4px calc(-1 * var(--reach)) -4px 100%);
   }
-  .mcap.is-active {
+  .mcap.is-active,
+  .mcap.is-shown {
     opacity: 1;
     pointer-events: auto;
     clip-path: inset(-4px -4px -4px calc(-1 * var(--reach)));
@@ -375,7 +380,8 @@ main {
       clip-path 420ms var(--ease) 260ms,
       transform 550ms var(--ease);
   }
-  .mcap.lane-b.is-active {
+  .mcap.lane-b.is-active,
+  .mcap.lane-b.is-shown {
     clip-path: inset(-4px calc(-1 * var(--reach)) -4px -4px);
   }
   /* Line + dot from the photo's edge to the label: the dot pops, then the line draws toward the box */
@@ -411,11 +417,13 @@ main {
     right: auto;
     left: calc(100% + var(--line) - 3.5px);
   }
-  .mcap.is-active::after {
+  .mcap.is-active::after,
+  .mcap.is-shown::after {
     transform: translateY(-50%) scale(1);
     transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms;
   }
-  .mcap.is-active::before {
+  .mcap.is-active::before,
+  .mcap.is-shown::before {
     transform: translateY(-50%) scaleX(1);
     transition: transform 260ms var(--ease) 140ms;
   }
@@ -455,11 +463,13 @@ main {
   .info-face {
     padding: 0 13%;
   }
+  /* Info tiles never zoom on phones, so they always show their details face */
   .info-summary {
-    font-size: 8cqw;
+    display: none;
   }
   .info-details {
-    font-size: 6.4cqw;
+    font-size: 8.4cqw;
+    opacity: 1;
   }
 }
 

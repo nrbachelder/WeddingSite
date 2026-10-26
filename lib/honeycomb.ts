@@ -84,8 +84,9 @@ function fillRows({ n, cols, rows, w, h, offsetX, offsetY, firstItem, firstFille
   Desktop Our Story timeline: a path winding down the page, perRow photos per row, running left
   to right and then right to left. Every other row is shifted half a step, so each turn steps
   diagonally down into the next row. Rows hold as many photos of about PATH_PHOTO width as fit
-  (at least 3). The gap under each row holds the zoomed photo's caption box: the photo's growth
-  below its edge, the dot + line (CAPTION_LEAD) and the box (CAPTION_ROOM). A row and its caption
+  (at least 3). The gap under each row holds its photos' caption boxes: a zoomed photo's growth
+  below its edge, the dot + line (CAPTION_LEAD), the box (CAPTION_ROOM), and room for the next
+  row's zoomed photo to grow up toward the captions, which stay open. A row and its caption
   (one pitch) are kept to half the screen height, so a row stays fully in view the whole time its
   photos are being stepped through.
 */
@@ -96,7 +97,8 @@ const CAPTION_ROOM = 84;
 export function windingLayout(n: number, width: number, vh: number, zoom = 1.35) {
   // Row footprint: perRow photos `step` apart plus the half-step shift = (perRow - 0.5) * step + w
   const gapX = 0.3;
-  const below = 1 + (zoom - 1) / 2;
+  // A photo's height plus its growth below and the next row's growth above, both (zoom - 1) / 2
+  const below = zoom;
   const fitHeight = (vh / 2 - CAPTION_LEAD - CAPTION_ROOM) / below / 0.866;
   const perRow = Math.max(3, Math.floor((width / PATH_PHOTO - 1) / (1 + gapX) + 1));
   const w = Math.max(160, Math.min(fitHeight, width / ((perRow - 0.5) * (1 + gapX) + 1)));
