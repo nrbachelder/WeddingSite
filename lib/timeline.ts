@@ -18,8 +18,9 @@ export const timeline = data as Moment[];
 const tints = ["#ffb7c5", "#c1d183", "#c82372", "#93a85c", "#ffb7c5", "#ff6b1a", "#c1d183", "#830c4f"];
 export const tintFor = (i: number) => tints[i % tints.length];
 
-// Filler tiles pick a random palette color; the seed changes on every page visit
-const fillerTints = ["#ffb7c5", "#93a85c", "#ff6b1a", "#830c4f", "#c1d183", "#c82372"];
+// Photo outlines and caption boxes pick a random palette color; the seed changes on every page
+// visit. White stands in for plum, which is too dark to see on the green background.
+const fillerTints = ["#ffb7c5", "#93a85c", "#ff6b1a", "#ffffff", "#c1d183", "#c82372"];
 export const fillerTint = (k: number, seed = 0) => {
   // Small integer hash of (tile, seed) -> palette index
   let x = Math.imul(k + 1, 0x9e3779b1) ^ seed;
