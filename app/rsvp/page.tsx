@@ -23,7 +23,7 @@ function RsvpButton({ url }: { url: string }) {
       <ol className="mt-8 space-y-5 font-serif text-lg leading-snug">
         {steps.map((step, k) => (
           <li key={k}>
-            <span className="mb-1 block font-sans text-xs tracking-[0.3em] text-magenta">{String(k + 1).padStart(2, "0")}</span>
+            <span className="mb-1 block font-sans text-xs tracking-[0.3em] text-white">{String(k + 1).padStart(2, "0")}</span>
             {step}
           </li>
         ))}
