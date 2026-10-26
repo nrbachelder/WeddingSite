@@ -12,6 +12,11 @@ export const site = {
   // Save-the-date mode: the RSVP tab shows a "coming soon" page and the RSVP API is off.
   // Flip to true when the invitations go out to bring back the full RSVP form.
   rsvpOpen: false,
+  // RSVPify form, opened by the RSVP button on the RSVP tab (takes priority over the built-in form
+  // and "coming soon"). Set to null to go back to the "coming soon" page.
+  rsvpUrl: "https://nickandemma-wedding.rsvpify.com" as string | null,
+  // When RSVPs open on RSVPify, shown in the RSVP instructions
+  rsvpOpensLabel: "January 1, 2027",
   // TBD: set an ISO date (e.g. "2027-04-15") plus label to show the deadline and close the form after it
   rsvpDeadline: null as string | null,
   rsvpDeadlineLabel: "",
@@ -19,44 +24,45 @@ export const site = {
   // TBD: leave empty to hide the meal question on the RSVP form
   mealOptions: [] as string[],
 
+  // Ceremony and reception are one event at the same venue
   events: [
     {
-      name: "Ceremony",
-      time: "6:00 PM",
+      name: "Ceremony & Reception",
+      time: "6:00 – 11:00 PM",
       venue: "Sarah P. Duke Gardens",
       address: "420 Anderson St, Durham, NC 27708",
       mapUrl: "https://maps.google.com/?q=Sarah+P.+Duke+Gardens,+420+Anderson+St,+Durham,+NC+27708",
     },
-    {
-      name: "Reception",
-      time: "To follow",
-      venue: "TODO Venue Name",
-      address: "TODO Street, City, State",
-      mapUrl: "https://maps.google.com/?q=TODO",
-    },
   ],
+  // TBD: the evening's schedule; null shows "to come"
+  schedule: null as string | null,
 
-  dressCode: "TODO — e.g. Garden formal. Expect grass, so block heels are your friend.",
+  dressCode: "Garden formal.",
+
+  contactEmail: "emmajanelivingston@gmail.com",
 
   travel: {
-    airport: "TODO — nearest airport and approximate drive time.",
-    hotels: [
-      {
-        name: "TODO Hotel",
-        note: "Room block under TODO through TODO date.",
-        url: "https://example.com",
-      },
-    ],
-    parking: "TODO — parking / shuttle details.",
+    airport: "Fly into Raleigh-Durham International Airport (RDU), about a 25-minute drive from Duke Gardens.",
+    // TBD: there will be a room block; add { name, note, url } entries once it's set up
+    hotels: [] as { name: string; note: string; url: string }[],
+    // TBD: null shows "to come"
+    parking: null as string | null,
   },
 
-  registry: [{ name: "TODO Registry", url: "https://example.com" }],
+  // TBD: add { name, url } entries once the registry is set up
+  registry: [] as { name: string; url: string }[],
 
   faq: [
     { q: "Can I bring a plus-one?", a: "Your invitation and RSVP will show who is included in your party." },
-    { q: "Are kids welcome?", a: "TODO" },
-    { q: "When should I RSVP by?", a: "RSVP deadline to come — we'll update this page soon." },
-    { q: "Is the venue indoors or outdoors?", a: "TODO" },
+    { q: "Are kids welcome?", a: "We love your little ones, but our celebration will be adults only." },
+    {
+      q: "Is the ceremony indoors or outdoors?",
+      a: "Outdoors in the gardens, weather permitting. If it rains, we'll move inside.",
+    },
+    {
+      q: "What about food and dietary needs?",
+      a: "There's a spot on the RSVP to share any dietary needs, and we'll make sure they're taken care of.",
+    },
   ],
 };
 

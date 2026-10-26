@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { site } from "@/content/site";
 import Countdown from "./Countdown";
 import HoneycombGrid from "./HoneycombGrid";
@@ -9,8 +9,8 @@ import InfoModal, { type InfoSection } from "./InfoModal";
 type InfoItem = {
   word: string;
   color: string;
-  /** Short line shown when the hexagon is zoomed */
-  teaser: string;
+  /** Short line shown on the hexagon under its word */
+  teaser: ReactNode;
   /** Full info, shown in the popup */
   sections: InfoSection[];
 };
@@ -18,12 +18,29 @@ type InfoItem = {
 const link = "underline decoration-current/40 underline-offset-4 hover:decoration-current";
 const mapLink = `inline-block text-sm tracking-[0.15em] uppercase ${link}`;
 
+// Placeholder for details that aren't set yet
+const soon = (text: string) => <p className="italic">{text}</p>;
+const rsvpLine = `RSVPs open ${site.rsvpOpensLabel} on the RSVP tab. ${
+  site.rsvpDeadlineLabel ? `Kindly reply by ${site.rsvpDeadlineLabel}.` : "The reply-by date is to come."
+}`;
+const email = (
+  <a href={`mailto:${site.contactEmail}`} className={link}>
+    {site.contactEmail}
+  </a>
+);
+
 function buildItems(): InfoItem[] {
   return [
     {
       word: "When",
       color: "var(--rose)",
-      teaser: `${site.dateLabel}`,
+      teaser: (
+        <>
+          {site.dateLabel}
+          <br />
+          {site.events[0].time}
+        </>
+      ),
       sections: [
         {
           heading: "Date",
@@ -37,18 +54,8 @@ function buildItems(): InfoItem[] {
           ),
         },
         ...site.events.map((e) => ({ heading: e.name, body: <p>{e.time}</p> })),
-        {
-          heading: "RSVP",
-          body: (
-            <p>
-              {!site.rsvpOpen
-                ? "Formal invitation to follow"
-                : site.rsvpDeadlineLabel
-                  ? `Kindly reply by ${site.rsvpDeadlineLabel}`
-                  : "RSVP deadline to come"}
-            </p>
-          ),
-        },
+        { heading: "Schedule", body: site.schedule ? <p>{site.schedule}</p> : soon("Full schedule to come.") },
+        { heading: "RSVP", body: <p>{site.rsvpOpen || site.rsvpUrl ? rsvpLine : "Formal invitation to follow"}</p> },
       ],
     },
     {
@@ -76,7 +83,7 @@ function buildItems(): InfoItem[] {
         { heading: "Getting there", body: <p>{site.travel.airport}</p> },
         {
           heading: "Where to stay",
-          body: (
+          body: site.travel.hotels.length ? (
             <>
               {site.travel.hotels.map((h) => (
                 <p key={h.name}>
@@ -87,9 +94,11 @@ function buildItems(): InfoItem[] {
                 </p>
               ))}
             </>
+          ) : (
+            soon("We’ll have a hotel room block — details to come.")
           ),
         },
-        { heading: "Parking", body: <p>{site.travel.parking}</p> },
+        { heading: "Parking", body: site.travel.parking ? <p>{site.travel.parking}</p> : soon("Parking details to come.") },
       ],
     },
     {
@@ -100,7 +109,7 @@ function buildItems(): InfoItem[] {
         { heading: "What should I wear?", body: <p>{site.dressCode}</p> },
         {
           heading: "Where are you registered?",
-          body: (
+          body: site.registry.length ? (
             <>
               {site.registry.map((r) => (
                 <a key={r.name} href={r.url} target="_blank" rel="noreferrer" className={`block italic ${link}`}>
@@ -108,9 +117,13 @@ function buildItems(): InfoItem[] {
                 </a>
               ))}
             </>
+          ) : (
+            soon("Registry details to come.")
           ),
         },
+        { heading: "When should I RSVP?", body: <p>{rsvpLine}</p> },
         ...site.faq.map((f) => ({ heading: f.q, body: <p>{f.a}</p> })),
+        { heading: "Other questions?", body: <p>Reach out to Emma at {email}.</p> },
       ],
     },
   ];
@@ -136,9 +149,6 @@ export default function InfoGrid() {
         onSelect={setOpen}
         renderTile={(i) => (
           <div className="info-tile">
-            <div className="info-face info-summary">
-              <p className="info-word">{items[i].word}</p>
-            </div>
             <div className="info-face info-details">
               <p className="info-word">{items[i].word}</p>
               <p>{items[i].teaser}</p>

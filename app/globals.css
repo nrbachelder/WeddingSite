@@ -94,7 +94,7 @@ main {
   z-index: 20;
   transition-delay: 0s;
 }
-/* Info tiles: a summary face, swapped for a details face when zoomed */
+/* Info tiles always show their details: the word, a short teaser and a tap hint */
 .info-tile {
   position: absolute;
   inset: 0;
@@ -115,20 +115,8 @@ main {
   line-height: 1.25;
   transition: opacity 350ms var(--ease);
 }
-.info-summary {
-  font-size: 7cqw;
-}
 .info-details {
-  font-size: 5.4cqw;
-  opacity: 0;
-  pointer-events: none;
-}
-.slot.is-active .info-summary {
-  opacity: 0;
-}
-.slot.is-active .info-details {
-  opacity: 1;
-  transition-delay: 150ms;
+  font-size: 6cqw;
 }
 .info-word {
   font-size: 1.9em;
@@ -463,13 +451,8 @@ main {
   .info-face {
     padding: 0 13%;
   }
-  /* Info tiles never zoom on phones, so they always show their details face */
-  .info-summary {
-    display: none;
-  }
   .info-details {
     font-size: 8.4cqw;
-    opacity: 1;
   }
 }
 
